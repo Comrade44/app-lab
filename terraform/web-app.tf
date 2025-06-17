@@ -4,7 +4,8 @@ resource "azurerm_resource_group" "rg-web-app" {
 }
 
 resource "random_string" "web-app-name" {
-  length = 4
+  length  = 4
+  special = false
 }
 
 resource "azurerm_service_plan" "lab-service-plan" {
