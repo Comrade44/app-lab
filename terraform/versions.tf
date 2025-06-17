@@ -5,6 +5,10 @@ terraform {
       source  = "hashicorp/azurerm"
       version = ">= 4.27.0"
     }
+    random = {
+      source  = "hashicorp/random"
+      version = "3.7.2"
+    }
   }
   backend "azurerm" {
     key = "lab.tfstate"
@@ -13,4 +17,8 @@ terraform {
 
 provider "azurerm" {
   features {}
+}
+
+provider "random" {
+  
 }
