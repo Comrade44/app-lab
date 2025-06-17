@@ -1,0 +1,75 @@
+on:
+  workflow_dispatch:
+    inputs:
+      terraform_action:
+        description: 'Terraform plan, apply or destroy'
+        required: true
+        type: choice
+        options:
+          - plan
+          - plan-destroy
+          - apply
+          - destroy
+        default: 'plan'
+  push:
+    paths:
+      - 'terraform/**'
+
+jobs:
+
+  terraform-deploy:
+    permissions:
+      id-token: write
+      contents: read
+
+    defaults:
+      run:
+        working-directory: './terraform'
+
+    runs-on: ubuntu-latest
+
+    env:
+      ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
+      ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
+      ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
+      ARM_USE_OIDC: true
+      ARM_USE_AZUREAD: true
+      TF_STATE_STORAGE_ACCOUNT_NAME: ${{ secrets.TF_STATE_STORAGE_ACCOUNT_NAME }}
+      TF_STATE_STORAGE_ACCOUNT_CONTAINER_NAME: ${{ secrets.TF_STATE_STORAGE_ACCOUNT_CONTAINER_NAME}}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Azure Login
+        uses: Azure/login@v2.1.1
+        with:
+          client-id: ${{ secrets.ARM_CLIENT_ID }}
+          tenant-id: ${{ secrets.ARM_TENANT_ID }}
+          subscription-id: ${{ secrets.ARM_SUBSCRIPTION_ID }}
+      
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_version: 1.11.2
+      
+      - name: Terraform init
+        run: |
+          terraform init \
+          -backend-config=storage_account_name=$TF_STATE_STORAGE_ACCOUNT_NAME \
+          -backend-config=container_name=$TF_STATE_STORAGE_ACCOUNT_CONTAINER_NAME
+
+      - name: Terraform plan
+        if: ${{ inputs.terraform_action == 'plan' || inputs.terraform_action == 'apply' || github.event_name == 'push' }}
+        run: terraform plan -out=tfplan
+
+      - name: Terraform plan destroy
+        if: ${{ inputs.terraform_action == 'plan-destroy' }}
+        run: terraform plan -destroy
+
+      - name: Terraform apply
+        if: ${{ inputs.terraform_action == 'apply' }}
+        run: terraform apply tfplan
+
+      - name: Terraform destroy
+        if: ${{ inputs.terraform_action == 'destroy' }}
+        run: terraform destroy -auto-approve
