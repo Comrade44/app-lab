@@ -4,7 +4,7 @@ resource "azurerm_resource_group" "rg-sql" {
 }
 
 resource "azurerm_mssql_server" "sql-server" {
-  name = "sql-server"
+  name = "sql-server-${random_string.web-app-name.result}"
   location = azurerm_resource_group.rg-sql.location
   resource_group_name = azurerm_resource_group.rg-sql.name
   version = "12.0"
