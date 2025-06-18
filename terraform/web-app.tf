@@ -23,7 +23,7 @@ resource "azurerm_windows_web_app" "lab-app" {
   service_plan_id     = azurerm_service_plan.lab-service-plan.id
   site_config {
     always_on = false
-    
+
   }
   app_settings = {
     "AZURE_SQL_CONNECTIONSTRING" = <<EOF
