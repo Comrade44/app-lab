@@ -52,3 +52,11 @@ resource "azurerm_monitor_diagnostic_setting" "sql-db" {
   }
 
 }
+
+resource "azurerm_application_insights" "web-app-insights" {
+  name                = "web-app-insights"
+  location            = "uksouth"
+  resource_group_name = azurerm_resource_group.rg-app-law.name
+  application_type    = "web"
+}
+
