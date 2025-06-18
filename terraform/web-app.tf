@@ -37,5 +37,7 @@ resource "azurerm_windows_web_app" "lab-app" {
       TrustServerCertificate=False;
       Connection Timeout=30;
       EOF
+    "APPLICATIONINSIGHTS_CONNECTION_STRING" = azurerm_application_insights.web-app-insights.connection_string
+    ApplicationInsightsAgent_EXTENSION_VERSION = "~3"
   }
 }
