@@ -27,7 +27,7 @@ resource "azurerm_windows_web_app" "lab-app" {
   }
   app_settings = {
     "AZURE_SQL_CONNECTIONSTRING" = <<EOF
-      "Server=tcp:${azurerm_mssql_server.sql-server.fully_qualified_domain_name},1433;
+      Server=tcp:${azurerm_mssql_server.sql-server.fully_qualified_domain_name},1433;
       Initial Catalog=${azurerm_mssql_database.sql-db-01.name};
       Persist Security Info=False;
       User ID=${azurerm_mssql_server.sql-server.administrator_login};
@@ -35,7 +35,7 @@ resource "azurerm_windows_web_app" "lab-app" {
       MultipleActiveResultSets=False;
       Encrypt=True;
       TrustServerCertificate=False;
-      Connection Timeout=30;"
+      Connection Timeout=30;
       EOF
   }
 }
