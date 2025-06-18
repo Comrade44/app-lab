@@ -15,4 +15,5 @@ resource "azurerm_mssql_server" "sql-server" {
 resource "azurerm_mssql_database" "sql-db-01" {
   name = "sql-db-01"
   server_id = azurerm_mssql_server.sql-server.id
+  sample_name = "AdventureWorksLT"
 }
