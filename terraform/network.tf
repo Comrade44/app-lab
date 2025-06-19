@@ -24,7 +24,7 @@ resource "azurerm_private_dns_zone" "dns-zones" {
 }
 
 resource "azurerm_private_dns_zone_virtual_network_link" "link-zones" {
-  for_each              = azurerm_dns_zone.dns-zones
+  for_each              = azurerm_private_dns_zone.dns-zones
   name                  = "link-${each.value.name}"
   resource_group_name   = azurerm_resource_group.rg-network.name
   private_dns_zone_name = each.value.name
