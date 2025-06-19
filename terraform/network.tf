@@ -18,7 +18,7 @@ resource "azurerm_subnet" "vnet-01-snet-app" {
 }
 
 resource "azurerm_dns_zone" "dns-zones" {
-  for_each            = ["privatelink.database.windows.net", "privatelink.azurewebsites.net", "scm.privatelink.azurewebsites.net"]
+  for_each            = ("privatelink.database.windows.net", "privatelink.azurewebsites.net", "scm.privatelink.azurewebsites.net")
   name                = each.value
   resource_group_name = azurerm_resource_group.rg-network.name
 }
