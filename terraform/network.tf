@@ -17,7 +17,7 @@ resource "azurerm_subnet" "vnet-01-snet-app" {
   address_prefixes     = ["10.0.1.0/24"]
 }
 
-resource "azurerm_dns_zone" "dns-zones" {
+resource "azurerm_private_dns_zone" "dns-zones" {
   for_each            = toset(["privatelink.database.windows.net", "privatelink.azurewebsites.net", "scm.privatelink.azurewebsites.net"])
   name                = each.value
   resource_group_name = azurerm_resource_group.rg-network.name
