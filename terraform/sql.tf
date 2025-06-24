@@ -3,6 +3,12 @@ resource "azurerm_resource_group" "rg-sql" {
   location = "uksouth"
 }
 
+resource "random_string" "web-app-name" {
+  length  = 4
+  special = false
+  upper   = false
+}
+
 resource "azurerm_mssql_server" "sql-server" {
   name                         = "sql-server-${random_string.web-app-name.result}"
   location                     = azurerm_resource_group.rg-sql.location
