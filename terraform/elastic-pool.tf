@@ -3,6 +3,7 @@ resource "azurerm_mssql_elasticpool" "testpool" {
   resource_group_name = azurerm_mssql_server.sql-server.resource_group_name
   location            = azurerm_mssql_server.sql-server.location
   server_name         = azurerm_mssql_server.sql-server.name
+  max_size_gb         = 10
   sku {
     name     = "GP_Gen5"
     capacity = 2
