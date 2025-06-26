@@ -7,6 +7,7 @@ resource "azurerm_mssql_elasticpool" "testpool" {
     name     = "GP_Gen5"
     capacity = 2
     tier     = "GeneralPurpose"
+    family   = "Gen5"
   }
   per_database_settings {
     min_capacity = 0
