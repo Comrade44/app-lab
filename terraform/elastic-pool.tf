@@ -4,7 +4,7 @@ resource "azurerm_mssql_elasticpool" "testpool" {
   location            = azurerm_mssql_server.sql-server.location
   server_name         = azurerm_mssql_server.sql-server.name
   sku {
-    name     = "GP_Gen5"
+    name     = "Gen5"
     capacity = 2
     tier     = "GeneralPurpose"
   }
