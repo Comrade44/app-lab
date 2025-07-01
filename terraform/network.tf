@@ -80,8 +80,8 @@ resource "azurerm_subnet_network_security_group_association" "sqlmi_nsg_assoc" {
 
 resource "azurerm_route_table" "sqlmi_rt" {
   name                = "rt-sqlmi"
-  location            = azurerm_resource_group.rg-sql.location
-  resource_group_name = azurerm_resource_group.rg-sql.name
+  location            = azurerm_resource_group.rg-network.location
+  resource_group_name = azurerm_resource_group.rg-network.name
 
   route {
     name           = "Allow-Internet-Outbound"

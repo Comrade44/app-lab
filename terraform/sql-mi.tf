@@ -10,7 +10,7 @@ resource "random_string" "web-app-name" {
 }
 
 resource "azurerm_mssql_managed_instance" "sql-mi" {
-  name                         = "sql-mi"
+  name                         = "sql-mi-${random_string.web-app-name.result}"
   license_type                 = "LicenseIncluded"
   location                     = azurerm_resource_group.rg-sql.location
   resource_group_name          = azurerm_resource_group.rg-sql.name
