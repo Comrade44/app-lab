@@ -77,3 +77,20 @@ resource "azurerm_subnet_network_security_group_association" "sqlmi_nsg_assoc" {
   subnet_id                 = azurerm_subnet.sql-mi.id
   network_security_group_id = azurerm_network_security_group.sqlmi_nsg.id
 }
+
+resource "azurerm_route_table" "sqlmi_rt" {
+  name                = "rt-sqlmi"
+  location            = azurerm_resource_group.rg-sql.location
+  resource_group_name = azurerm_resource_group.rg-sql.name
+
+  route {
+    name           = "Allow-Internet-Outbound"
+    address_prefix = "0.0.0.0/0"
+    next_hop_type  = "Internet"
+  }
+}
+
+resource "azurerm_subnet_route_table_association" "sqlmi_rt_assoc" {
+  subnet_id      = azurerm_subnet.sql-mi.id
+  route_table_id = azurerm_route_table.sqlmi_rt.id
+}
