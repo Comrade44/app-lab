@@ -10,7 +10,7 @@ resource "random_string" "web-app-name" {
 }
 
 resource "azurerm_mssql_managed_instance" "sql-mi" {
-  depends_on = [ azurerm_route_table.sqlmi_rt ]
+  depends_on                   = [azurerm_route_table.sqlmi_rt]
   name                         = "sql-mi-${random_string.web-app-name.result}"
   license_type                 = "LicenseIncluded"
   location                     = azurerm_resource_group.rg-sql.location
@@ -21,13 +21,6 @@ resource "azurerm_mssql_managed_instance" "sql-mi" {
   vcores                       = 4
   administrator_login          = "labadmin"
   administrator_login_password = "LabLogin2025!"
-}
-
-resource "azurerm_mssql_firewall_rule" "allow-ms-trusted-services" {
-  name             = "AllowAllWindowsAzureIps"
-  server_id        = azurerm_mssql_managed_instance.sql-mi.id
-  start_ip_address = "0.0.0.0"
-  end_ip_address   = "0.0.0.0"
 }
 
 resource "azurerm_subnet" "sql-mi" {
