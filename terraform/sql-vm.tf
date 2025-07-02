@@ -17,6 +17,7 @@ resource "azurerm_network_interface" "sql-vm-nic" {
     name                          = "public"
     subnet_id                     = azurerm_subnet.vnet-01-snet-app.id
     private_ip_address_allocation = "Dynamic"
+    public_ip_address_id          = azurerm_public_ip.sql-pip.id
   }
 }
 
@@ -38,4 +39,11 @@ resource "azurerm_windows_virtual_machine" "sql-vm" {
   }
   admin_username = "labadmin"
   admin_password = "LabLogin2025!"
+}
+
+resource "azurerm_public_ip" "sql-pip" {
+  name                = "sql-pip"
+  location            = azurerm_resource_group.rg-sql.location
+  resource_group_name = azurerm_resource_group.rg-sql.name
+  allocation_method   = "Dynamic"
 }
